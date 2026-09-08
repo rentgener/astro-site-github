@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Анкета для консультации</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Cormorant+Garamond:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-deep: #0b0b18;
+    --bg-panel: #181832;
+    --bg-field: #2c2c52;
+    --gold: #d4af37;
+    --gold-light: #f0d78c;
+    --gold-dim: #8a742a;
+    --text-main: #f5f4fa;
+    --text-muted: #b7b4d4;
+    --border: #46466e;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background-color: var(--bg-deep);
+    background-image: linear-gradient(rgba(11,11,24,0.05), rgba(11,11,24,0.1)), url("background.jpg");
+    background-position: center center, center center;
+    background-size: cover, cover;
+    background-repeat: no-repeat, no-repeat;
+    background-attachment: scroll, scroll;
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--text-main);
+    padding-bottom: 60px;
+  }
+
+  /* Декоративное звёздное небо */
+  .stars-bg {
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    body {
+      background-size: contain, contain;
+      background-position: center top, center top;
+      background-repeat: no-repeat, no-repeat;
+    }
+  }
+
+  .hero {
+    position: relative;
+    text-align: center;
+    padding: 56px 24px 12px;
+    z-index: 1;
+  }
+
+  .hero-halo {
+    position: relative;
+    width: 220px;
+    height: 220px;
+    margin: 0 auto 4px;
+  }
+
+  .hero-halo svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .hero-halo .author-photo-wrap {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+  }
+
+  .corner-photo {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 5;
+  }
+
+  .corner-photo .author-photo-wrap {
+    width: 84px;
+    height: 84px;
+    margin: 0;
+  }
+
+  .hero svg { display: block; margin: 0 auto 8px; }
+
+  .author-photo-wrap {
+    position: relative;
+    width: 152px;
+    height: 152px;
+    margin: 0 auto 18px;
+  }
+
+  .author-photo-ring {
+    position: absolute;
+    inset: -10px;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg, var(--gold), var(--gold-light), var(--gold-dim), var(--gold));
+    opacity: 0.9;
+  }
+
+  .author-photo-ring::after {
+    content: "";
+    position: absolute;
+    inset: 4px;
+    border-radius: 50%;
+    background: var(--bg-deep);
+  }
+
+  .author-photo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 0 30px rgba(212,175,55,0.35);
+  }
+
+  .hero-title {
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    font-size: 24px;
+    letter-spacing: 3px;
+    color: var(--gold-light);
+    text-shadow: 0 0 18px rgba(212,175,55,0.35);
+    margin: 8px 0 6px;
+  }
+
+  .hero-subtitle {
+    display: inline-block;
+    font-size: 20px;
+    color: #ffffff;
+    background: rgba(11,11,24,0.55);
+    padding: 14px 22px;
+    border-radius: 12px;
+    max-width: 440px;
+    margin: 0 auto;
+    line-height: 1.5;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.6);
+  }
+
+  .anketa-wrap {
+    position: relative;
+    z-index: 1;
+    max-width: 580px;
+    margin: 0 auto;
+    padding: 0 24px 0;
+  }
+
+  .anketa-panel {
+    background: rgba(20, 20, 40, 0.45);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px 28px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+
+  .anketa-field { margin-bottom: 18px; }
+
+  .anketa-field label {
+    display: block;
+    font-family: 'Cinzel', serif;
+    font-size: 12.5px;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+
+  .anketa-field input,
+  .anketa-field textarea,
+  .anketa-field select {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 17px;
+    font-family: 'Cormorant Garamond', serif;
+    color: var(--text-main);
+    background: var(--bg-field);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .anketa-field input::placeholder,
+  .anketa-field textarea::placeholder {
+    color: #9491b8;
+  }
+
+  .anketa-field input:focus,
+  .anketa-field textarea:focus,
+  .anketa-field select:focus {
+    outline: none;
+    background: #35355e;
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(212,175,55,0.2);
+  }
+
+  .anketa-field textarea { min-height: 76px; resize: vertical; }
+
+  .anketa-field select {
+    appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24'><path fill='%23d4af37' d='M7 10l5 5 5-5z'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+  }
+
+  .anketa-submit {
+    width: 100%;
+    padding: 15px;
+    font-family: 'Cinzel', serif;
+    font-size: 15px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: #16162b;
+    background: linear-gradient(135deg, var(--gold-light), var(--gold));
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+
+  .anketa-submit:hover:not(:disabled) {
+    box-shadow: 0 6px 24px rgba(212,175,55,0.35);
+    transform: translateY(-1px);
+  }
+
+  .anketa-submit:disabled { opacity: 0.6; cursor: default; }
+
+  .anketa-status {
+    margin-top: 16px;
+    font-size: 16px;
+    text-align: center;
+  }
+  .anketa-status.ok { color: #b7e3a0; }
+  .anketa-status.err { color: #e39a9a; }
+
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.25; }
+    50% { opacity: 1; }
+  }
+
+  .star {
+    animation: twinkle 4s ease-in-out infinite;
+  }
+
+  .constellation-line {
+    stroke: #d4af37;
+    stroke-width: 1;
+    opacity: 0.35;
+  }
+
+  .constellation-star {
+    fill: #f0d78c;
+  }
+
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 26px 0;
+    color: var(--gold-dim);
+  }
+  .divider::before,
+  .divider::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+</style>
+</head>
+<body>
+
+<svg class="stars-bg" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" viewBox="0 0 1000 2200">
+
+  <!-- Рассыпанные мелкие звёзды -->
+  <defs>
+    <pattern id="starsPattern" width="140" height="140" patternUnits="userSpaceOnUse">
+      <circle class="star" cx="10" cy="20" r="1.3" fill="#d4af37" style="animation-delay:0s"/>
+      <circle class="star" cx="55" cy="60" r="0.9" fill="#ffffff" style="animation-delay:1.2s"/>
+      <circle class="star" cx="90" cy="15" r="1" fill="#d4af37" style="animation-delay:2.1s"/>
+      <circle class="star" cx="115" cy="80" r="0.8" fill="#ffffff" style="animation-delay:0.6s"/>
+      <circle class="star" cx="30" cy="105" r="1.1" fill="#d4af37" style="animation-delay:1.8s"/>
+      <circle class="star" cx="70" cy="125" r="0.7" fill="#ffffff" style="animation-delay:3s"/>
+    </pattern>
+  </defs>
+  <rect width="1000" height="2200" fill="url(#starsPattern)"/>
+
+  <!-- Созвездие 1: Большая Медведица, верх слева -->
+  <g>
+    <polyline class="constellation-line" points="80,120 150,100 220,140 300,130 360,180 420,170 460,220" fill="none"/>
+    <circle class="constellation-star star" cx="80" cy="120" r="2.4" style="animation-delay:0.2s"/>
+    <circle class="constellation-star star" cx="150" cy="100" r="2" style="animation-delay:1s"/>
+    <circle class="constellation-star star" cx="220" cy="140" r="2.2" style="animation-delay:2s"/>
+    <circle class="constellation-star star" cx="300" cy="130" r="2" style="animation-delay:0.5s"/>
+    <circle class="constellation-star star" cx="360" cy="180" r="2.4" style="animation-delay:1.6s"/>
+    <circle class="constellation-star star" cx="420" cy="170" r="2" style="animation-delay:2.4s"/>
+    <circle class="constellation-star star" cx="460" cy="220" r="2.6" style="animation-delay:0.8s"/>
+  </g>
+
+  <!-- Созвездие 2: Кассиопея (W-форма), справа сверху -->
+  <g>
+    <polyline class="constellation-line" points="650,180 710,230 760,190 820,240 880,200" fill="none"/>
+    <circle class="constellation-star star" cx="650" cy="180" r="2.2" style="animation-delay:0.3s"/>
+    <circle class="constellation-star star" cx="710" cy="230" r="2" style="animation-delay:1.4s"/>
+    <circle class="constellation-star star" cx="760" cy="190" r="2.4" style="animation-delay:2.2s"/>
+    <circle class="constellation-star star" cx="820" cy="240" r="2" style="animation-delay:0.7s"/>
+    <circle class="constellation-star star" cx="880" cy="200" r="2.2" style="animation-delay:1.9s"/>
+  </g>
+
+  <!-- Созвездие 3: Орион, середина -->
+  <g>
+    <polyline class="constellation-line" points="120,900 180,960 260,940 300,1000 260,1060 180,1040 120,900" fill="none"/>
+    <polyline class="constellation-line" points="180,960 260,940" fill="none"/>
+    <circle class="constellation-star star" cx="120" cy="900" r="2.4" style="animation-delay:0.4s"/>
+    <circle class="constellation-star star" cx="180" cy="960" r="2.6" style="animation-delay:1.3s"/>
+    <circle class="constellation-star star" cx="260" cy="940" r="2.6" style="animation-delay:2.3s"/>
+    <circle class="constellation-star star" cx="300" cy="1000" r="2" style="animation-delay:0.9s"/>
+    <circle class="constellation-star star" cx="260" cy="1060" r="2.2" style="animation-delay:1.7s"/>
+    <circle class="constellation-star star" cx="180" cy="1040" r="2.2" style="animation-delay:2.6s"/>
+  </g>
+
+  <!-- Созвездие 4: справа снизу -->
+  <g>
+    <polyline class="constellation-line" points="700,1300 760,1360 830,1340 880,1400 940,1370" fill="none"/>
+    <circle class="constellation-star star" cx="700" cy="1300" r="2.2" style="animation-delay:0.6s"/>
+    <circle class="constellation-star star" cx="760" cy="1360" r="2" style="animation-delay:1.5s"/>
+    <circle class="constellation-star star" cx="830" cy="1340" r="2.4" style="animation-delay:2.1s"/>
+    <circle class="constellation-star star" cx="880" cy="1400" r="2" style="animation-delay:0.3s"/>
+    <circle class="constellation-star star" cx="940" cy="1370" r="2.2" style="animation-delay:1.9s"/>
+  </g>
+
+  <!-- Созвездие 5: слева снизу -->
+  <g>
+    <polyline class="constellation-line" points="60,1700 130,1750 100,1820 170,1850 220,1800" fill="none"/>
+    <circle class="constellation-star star" cx="60" cy="1700" r="2.2" style="animation-delay:0.5s"/>
+    <circle class="constellation-star star" cx="130" cy="1750" r="2" style="animation-delay:1.6s"/>
+    <circle class="constellation-star star" cx="100" cy="1820" r="2.4" style="animation-delay:2.4s"/>
+    <circle class="constellation-star star" cx="170" cy="1850" r="2" style="animation-delay:0.8s"/>
+    <circle class="constellation-star star" cx="220" cy="1800" r="2.2" style="animation-delay:1.2s"/>
+  </g>
+
+  <!-- Созвездие 6: центр внизу -->
+  <g>
+    <polyline class="constellation-line" points="420,2000 480,2050 550,2020 600,2080" fill="none"/>
+    <circle class="constellation-star star" cx="420" cy="2000" r="2.2" style="animation-delay:0.7s"/>
+    <circle class="constellation-star star" cx="480" cy="2050" r="2" style="animation-delay:1.8s"/>
+    <circle class="constellation-star star" cx="550" cy="2020" r="2.4" style="animation-delay:2.5s"/>
+    <circle class="constellation-star star" cx="600" cy="2080" r="2" style="animation-delay:0.4s"/>
+  </g>
+
+</svg>
+
+<div class="hero">
+  <div class="hero-halo">
+    <svg viewBox="0 0 200 200" fill="none">
+      <circle cx="100" cy="100" r="98" stroke="#d4af37" stroke-width="1" opacity="0.45"/>
+      <circle cx="100" cy="100" r="86" stroke="#d4af37" stroke-width="1" opacity="0.3"/>
+      <g stroke="#d4af37" stroke-width="1" opacity="0.5">
+        <line x1="100" y1="2" x2="100" y2="198"/>
+        <line x1="2" y1="100" x2="198" y2="100"/>
+        <line x1="30" y1="30" x2="170" y2="170"/>
+        <line x1="170" y1="30" x2="30" y2="170"/>
+      </g>
+      <g fill="#f0d78c">
+        <circle cx="100" cy="2" r="2.6"/>
+        <circle cx="100" cy="198" r="2.6"/>
+        <circle cx="2" cy="100" r="2.6"/>
+        <circle cx="198" cy="100" r="2.6"/>
+        <circle cx="30" cy="30" r="2"/>
+        <circle cx="170" cy="170" r="2"/>
+        <circle cx="170" cy="30" r="2"/>
+        <circle cx="30" cy="170" r="2"/>
+      </g>
+    </svg>
+    <div class="author-photo-wrap">
+      <div class="author-photo-ring"></div>
+      <img class="author-photo" src="photo.jpg" alt="Астролог">
+    </div>
+  </div>
+  <div class="hero-subtitle">Прежде чем мы начнём консультацию, ответьте, пожалуйста, на несколько вопросов — это поможет мне глубже разобрать вашу ситуацию.</div>
+  <div class="hero-title">АНКЕТА</div>
+</div>
+
+<div class="anketa-wrap">
+  <div class="anketa-panel">
+    <form id="anketaForm">
+
+      <div class="anketa-field">
+        <label>ФИО полностью (включая девичью фамилию)</label>
+        <input type="text" name="fio" required>
+      </div>
+
+      <div class="anketa-field">
+        <label>Дата рождения</label>
+        <input type="text" name="birth_date" placeholder="ДД.ММ.ГГГГ" required>
+      </div>
+
+      <div class="anketa-field">
+        <label>Точное время рождения (если есть данные, если нет — примерно)</label>
+        <input type="text" name="birth_time">
+      </div>
+
+      <div class="anketa-field">
+        <label>Место рождения (город, населённый пункт)</label>
+        <input type="text" name="birth_place">
+      </div>
+
+      <div class="anketa-field">
+        <label>Контакт для связи (Telegram, WhatsApp, e-mail)</label>
+        <input type="text" name="contact" required>
+      </div>
+
+      <div class="divider">ситуация</div>
+
+      <div class="anketa-field">
+        <label>Опишите вашу ситуацию или вопрос (что хотите разобрать? чего ожидаете от консультации?)</label>
+        <textarea name="situation"></textarea>
+      </div>
+
+      <div class="anketa-field">
+        <label>Как давно беспокоит эта ситуация?</label>
+        <select name="duration">
+          <option value="">Выберите вариант</option>
+          <option>Менее месяца</option>
+          <option>От месяца до года</option>
+          <option>Более года</option>
+          <option>С детства</option>
+          <option>Повторяющийся сценарий в роду</option>
+        </select>
+      </div>
+
+      <div class="anketa-field">
+        <label>Что вы уже предпринимали для решения этого вопроса? (медицина, психология, ремонты, переезды...)</label>
+        <textarea name="already_tried"></textarea>
+      </div>
+
+      <div class="anketa-field">
+        <label>Есть ли официальные медицинские диагнозы? Если да, перечислите</label>
+        <textarea name="diagnoses"></textarea>
+      </div>
+
+      <div class="anketa-field">
+        <label>В какой момент жизни появился симптом или обострение? Что предшествовало?</label>
+        <textarea name="symptom_onset"></textarea>
+      </div>
+
+      <div class="divider">объект (если применимо)</div>
+
+      <div class="anketa-field">
+        <label>О каком объекте речь? (новостройка, частный дом, вторичное жильё, земля, коммерция)</label>
+        <input type="text" name="object_type">
+      </div>
+
+      <div class="anketa-field">
+        <label>В чём именно заключается проблема с объектом? (трещины, протечки, затягивание ремонта, ссоры с подрядчиками, дискомфорт в уже готовом доме)</label>
+        <textarea name="object_problem"></textarea>
+      </div>
+
+      <div class="anketa-field">
+        <label>Адрес объекта (для анализа пространства, если требуется)</label>
+        <input type="text" name="object_address">
+      </div>
+
+      <div class="divider">семья и род</div>
+
+      <div class="anketa-field">
+        <label>Укажите ФИО и даты рождения ключевых членов семьи, которых мы будем разбирать (супруг, партнёр, дети)</label>
+        <textarea name="family_members"></textarea>
+      </div>
+
+      <div class="anketa-field">
+        <label>Что вам известно о судьбе ваших родителей и бабушек/дедушек? (разводы, ранние смерти, потери имущества, репрессии, переезды, болезни, повторяющиеся профессии)</label>
+        <textarea name="family_history"></textarea>
+      </div>
+
+      <div class="anketa-field">
+        <label>Есть ли у вас готовое родовое древо или фото/сканы свидетельств о рождении/браке старшего поколения?</label>
+        <input type="text" name="family_tree" placeholder="да, есть / нет, но могу найти / нет">
+      </div>
+
+      <button type="submit" class="anketa-submit" id="anketaSubmitBtn">Сохранить</button>
+      <div class="anketa-status" id="anketaStatus"></div>
+
+    </form>
+  </div>
+</div>
+
+<script>
+(function () {
+  var form = document.getElementById("anketaForm");
+  var btn = document.getElementById("anketaSubmitBtn");
+  var statusEl = document.getElementById("anketaStatus");
+
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    statusEl.textContent = "";
+    statusEl.className = "anketa-status";
+    btn.disabled = true;
+    btn.textContent = "Отправка...";
+
+    var formData = new FormData(form);
+    var data = {};
+    formData.forEach(function (value, key) { data[key] = value; });
+
+    fetch("/api/send", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    })
+      .then(function (res) { return res.json(); })
+      .then(function (result) {
+        if (result.success) {
+          statusEl.textContent = "Спасибо! Анкета сохранена.";
+          statusEl.classList.add("ok");
+          form.reset();
+        } else {
+          statusEl.textContent = "Ошибка отправки. Попробуйте ещё раз.";
+          statusEl.classList.add("err");
+        }
+      })
+      .catch(function () {
+        statusEl.textContent = "Ошибка сети. Попробуйте ещё раз.";
+        statusEl.classList.add("err");
+      })
+      .finally(function () {
+        btn.disabled = false;
+        btn.textContent = "Сохранить";
+      });
+  });
+})();
+</script>
+
+</body>
+</html>
