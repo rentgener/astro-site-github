@@ -1,7 +1,3 @@
-// Serverless-функция для Vercel.
-// Токен и chat_id хранятся в переменных окружения (Environment Variables),
-// а не в коде страницы — так их никто не увидит в браузере.
-
 const fieldLabels = {
   fio: "ФИО",
   birth_date: "Дата рождения",
