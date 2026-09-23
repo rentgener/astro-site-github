@@ -1,3 +1,7 @@
+// Serverless-функция для Vercel.
+// Токен и chat_id хранятся в переменных окружения (Environment Variables),
+// а не в коде страницы — так их никто не увидит в браузере.
+
 const fieldLabels = {
   fio: "ФИО",
   birth_date: "Дата рождения",
@@ -6,15 +10,7 @@ const fieldLabels = {
   contact: "Контакт",
   situation: "Ситуация/вопрос",
   duration: "Как давно беспокоит",
-  already_tried: "Что предпринимали",
-  diagnoses: "Диагнозы",
-  symptom_onset: "Начало симптома",
-  object_type: "Тип объекта",
-  object_problem: "Проблема объекта",
-  object_address: "Адрес объекта",
-  family_members: "Члены семьи",
-  family_history: "История семьи",
-  family_tree: "Родовое древо"
+  already_tried: "Что предпринимали"
 };
 
 export default async function handler(req, res) {
